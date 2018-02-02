@@ -1,0 +1,27 @@
+#!/bin/bash
+
+which cutadapt;
+
+# Debugging settings:
+#####################
+
+# Print commands and their arguments as they are executed.
+set -x
+
+#Exit immediately if a command exits with a non-zero status.
+set -e
+
+#the return value of a pipeline is the status of
+#the last command to exit with a non-zero status,
+#or zero if no command exited with a non-zero status
+set -o pipefail
+
+
+
+OVERLAP_LENGTH=${2}
+REMAINING_ARGS=${@:3}
+
+# gets -O argument (overlap_length) from content of file given in argument 2
+# TODO: removed "cat" param but ask alain why that command exists
+cutadapt -O ${OVERLAP_LENGTH=} ${REMAINING_ARGS}
+

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+
+read -r -d '' USAGE <<- ENDOFUSAGE
+  usage: wf_rnaseqse.cwl
+         [-h]
+
+ENDOFUSAGE
+
+echo "--------------------------------------------------------------"
+echo "wf_rnaseqse.cwl"
+echo "--------------------"
+echo "${USAGE}"
+echo "---------------------------------------------------------------"

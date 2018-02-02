@@ -1,0 +1,9 @@
+#!/usr/bin/env trimse.cwl
+
+input_trim:
+  class: File
+  path: inputs/SA-KO3P1_S20_L007_R1_001.fastq.gz
+
+input_trim_b_adapters:
+  class: File
+  path: inputs/adapters.fasta
