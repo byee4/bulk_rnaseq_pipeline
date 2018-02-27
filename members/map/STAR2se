@@ -58,7 +58,7 @@ ls -l
 
 # generate the real star command and run it
 #------------------------------------------
-FINALSTARCOMMAND="STAR $ZCAT --genomeDir genomedir --outFileNamePrefix ${OUTFILENAMEPREFIX}  $3  $4  ${@:8} > stdoutfile"  # TODO: more elegantly change from paired end to se
+FINALSTARCOMMAND="STAR $ZCAT --genomeDir genomedir --outFileNamePrefix ${OUTFILENAMEPREFIX}  $3  $4  ${@:6} > stdoutfile"  # TODO: more elegantly change from paired end to se
 echo ${FINALSTARCOMMAND}
 ${FINALSTARCOMMAND}
 

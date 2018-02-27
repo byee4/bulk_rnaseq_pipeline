@@ -88,10 +88,9 @@ inputs:
 arguments: [
   #--outFileNamePrefix, $(inputs.input_map_rev.nameroot), # TODO now handles better in STAR2 script
   $(inputs.input_map_fwd.nameroot).,
-#   $(inputs.input_map_fwd.nameroot)., # TODO: no need to merge paired sequences if a file is single end
-
+  # $(inputs.input_map_fwd.nameroot)., # TODO: no need to merge paired sequences if a file is single end
   #--runThreadN, '7', --outSAMtype, BAM, Unsorted,
-  --runThreadN, '16',
+  --runThreadN, '8',
   --genomeLoad, LoadAndRemove,
   --outSAMtype, BAM, Unsorted,
   --outReadsUnmapped, Fastx,

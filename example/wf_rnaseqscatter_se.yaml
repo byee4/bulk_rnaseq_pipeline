@@ -1,0 +1,29 @@
+#!/usr/bin/env rnaseq_se_cwltorq
+
+## wf_rnaseqscatter_se.cwl
+
+species: hg19
+
+speciesChromSizes:
+  class: File
+  path: inputs/hg19.chrom.sizes
+
+speciesGenomeDir:
+  class: Directory
+  path: inputs/hg19_star_sjdb
+
+repeatElementGenomeDir:
+  class: Directory
+  path: inputs/STAR_fixed
+
+adapters:
+  class: File
+  path: inputs/adapters.fasta
+
+reads:
+  - name: KO3P1
+    class: File
+    path: inputs/SA-KO3P1_S20_L007_R1_001.fastq.gz
+  - name: KO3P2
+    class: File
+    path: inputs/SA-KO3P2_S13_L006_R1_001.fastq.gz

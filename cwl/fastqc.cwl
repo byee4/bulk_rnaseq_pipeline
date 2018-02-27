@@ -7,14 +7,10 @@ class: CommandLineTool
 
 requirements:
   - class: ResourceRequirement
-    coresMin: 1
+    coresMin: 2
     ramMin: 8000
 
-
-# FIXME
 baseCommand: [fastqc, -t, "2", --extract, -k, "7",]
-
-#baseCommand: [singularityexec, eclip.img, /projects/ps-yeolab/software/FastQC-0.11.3/fastqc, -t, "2", --extract, -k, "7",]
 
 #$namespaces:
 #  ex: http://example.com/
