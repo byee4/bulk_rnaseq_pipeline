@@ -1,4 +1,6 @@
-#!/usr/bin/env rnaseqcore_se_cwltorq
+#!/usr/bin/env cwltool
+
+### rnaseqcore_se_cwltorq
 
 cwlVersion: v1.0
 class: Workflow
@@ -7,6 +9,8 @@ requirements:
   - class: StepInputExpressionRequirement
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement      # TODO needed?
+  - class: MultipleInputFeatureRequirement
+  - class: InlineJavascriptRequirement
 
 #hints:
 #  - class: ex:ScriptRequirement
@@ -26,7 +30,15 @@ inputs:
   adapters:
     type: File
   read:
-    type: File
+    type:
+      type: record
+      fields:
+        read1:
+          type: File
+        name:
+          type: string
+
+
 
 outputs:
   A_output_fastqc_report:
@@ -36,32 +48,27 @@ outputs:
     type: File
     outputSource: A_fastqc/output_qc_stats
 
-  A_output_trim_fwd:
+  A_output_trim:
     type: File
     outputSource: A_trim/output_trim
   A_output_trim_report:
     type: File
     outputSource: A_trim/output_trim_report
+
   A_output_sort_trimmed_fastq:
     type: File
     outputSource: A_sort_trimmed_fastq/output_fastqsort_sortedfastq
 
-  A_output_maprepeats_unmapped_fwd:
-    type: File
-    outputSource: A_map_repeats/output_map_unmapped_fwd
-  A_output_maprepeats_stats:
-    type: File
-    outputSource: A_map_repeats/mappingstats
   A_output_maprepeats_mapped_to_genome:
     type: File
     outputSource: A_map_repeats/aligned
+  A_output_maprepeats_stats:
+    type: File
+    outputSource: A_map_repeats/mappingstats
   A_output_sort_repunmapped_fastq:
     type: File
     outputSource: A_sort_repunmapped_fastq/output_fastqsort_sortedfastq
 
-  A_output_mapgenome_unmapped_fwd:
-    type: File
-    outputSource: A_map_genome/output_map_unmapped_fwd
   A_output_mapgenome_mapped_to_genome:
     type: File
     outputSource: A_map_genome/aligned
@@ -88,55 +95,91 @@ steps:
 ###########################################################################
 # Upstream
 ###########################################################################
+  A_parse_records:
+    run: parse_records.cwl
+    in:
+      read: read
+    out: [
+      name,
+      repName, rmRepName,
+      read1Trim, read2Trim,
+      read1, read2
+    ]
 
   A_fastqc:
-      run: fastqc.cwl
-      in:
-        reads: read
-      out: [
-        output_qc_report,
-        output_qc_stats
-      ]
-
+    run: fastqc.cwl
+    in:
+      reads: A_parse_records/read1
+    out: [
+      output_qc_report,
+      output_qc_stats
+    ]
+  ### USE trim_se.cwl instead of trim_pe.cwl ###
+  ### (returns output_trim as File instead of array) ###
   A_trim:
-      run: trim_se.cwl
-      in:
-        input_trim: read
-        input_trim_b_adapters: adapters
-      out: [
-        output_trim,
-        output_trim_report
-      ]
-
+    run: trim_se.cwl
+    in:
+      output_r1: A_parse_records/read1Trim
+      input_trim:
+        source: A_parse_records/read1
+        # Hack to turn a single File output into a File[] #
+        valueFrom: ${ return [ self ]; }
+      input_trim_b_adapters: adapters
+    out: [
+      output_trim,
+      output_trim_report
+    ]
+  ### Skip the scatter requirement for single end ###
   A_sort_trimmed_fastq:
     run: fastqsort.cwl
+    # scatter: input_fastqsort_fastq
     in:
       input_fastqsort_fastq: A_trim/output_trim
     out:
       [output_fastqsort_sortedfastq]
-
   A_map_repeats:
-    run: star_se.cwl
+    run: star.cwl
     in:
-      readFilesIn: A_sort_trimmed_fastq/output_fastqsort_sortedfastq
+      # outFileNamePrefix: A_parse_records/repName
+      readFilesIn:
+        source: A_sort_trimmed_fastq/output_fastqsort_sortedfastq
+        # Hack to turn a single File output into a File[] #
+        valueFrom: ${ return [ self ]; }
       genomeDir: repeatElementGenomeDir
-    out:
-      [aligned, output_map_unmapped_fwd, mappingstats]
+    out: [
+      aligned,
+      output_map_unmapped_fwd,
+      output_map_unmapped_rev,
+      mappingstats
+    ]
 
   A_sort_repunmapped_fastq:
     run: fastqsort.cwl
+    # scatter: input_fastqsort_fastq
     in:
       input_fastqsort_fastq: A_map_repeats/output_map_unmapped_fwd
+      # [
+      #   A_map_repeats/output_map_unmapped_fwd
+      #   A_map_repeats/output_map_unmapped_rev
+      # ]
     out:
       [output_fastqsort_sortedfastq]
 
   A_map_genome:
-    run: star_se.cwl
+    run: star.cwl
     in:
-      readFilesIn: A_sort_repunmapped_fastq/output_fastqsort_sortedfastq
+      # outFileNamePrefix: A_parse_records/rmRepName
+      readFilesIn:
+        source: A_sort_repunmapped_fastq/output_fastqsort_sortedfastq
+        # Hack to turn a single File output into a File[] #
+        valueFrom: ${ return [ self ]; }
       genomeDir: speciesGenomeDir
-    out:
-      [aligned, output_map_unmapped_fwd, mappingstats]
+    out: [
+      aligned,
+      output_map_unmapped_fwd,
+      output_map_unmapped_rev,
+      mappingstats
+    ]
 
   A_sort:
     run: sort.cwl

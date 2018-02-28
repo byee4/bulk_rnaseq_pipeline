@@ -1,0 +1,94 @@
+#!/usr/bin/env rnaseqcore_pe_cwltorq
+
+### rnaseqcore_pe_cwltorq ###
+### wf_rnaseqscatter_pe.cwl ###
+
+species: hg19
+
+speciesChromSizes:
+  class: File
+  path: inputs/hg19.chrom.sizes
+
+speciesGenomeDir:
+  class: Directory
+  path: inputs/hg19_star_sjdb
+
+repeatElementGenomeDir:
+  class: Directory
+  path: inputs/STAR_fixed
+
+adapters:
+  class: File
+  path: inputs/adapters.fasta
+
+reads:
+  - name: condition1
+    read1:
+      class: File
+      path: inputs/EW60_S31_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW60_S31_L005_R2_001.fastq.gz
+  - name: condition2
+    read1:
+      class: File
+      path: inputs/EW61_S32_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW61_S32_L005_R2_001.fastq.gz
+  - name: condition3
+    read1:
+      class: File
+      path: inputs/EW62_S33_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW62_S33_L005_R2_001.fastq.gz
+  - name: condition4
+    read1:
+      class: File
+      path: inputs/EW64_S35_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW64_S35_L005_R2_001.fastq.gz
+  - name: condition5
+    read1:
+      class: File
+      path: inputs/EW65_S36_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW65_S36_L005_R2_001.fastq.gz
+  - name: condition6
+    read1:
+      class: File
+      path: inputs/EW66_S37_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW66_S37_L005_R2_001.fastq.gz
+  - name: condition7
+    read1:
+      class: File
+      path: inputs/EW67_S38_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW67_S38_L005_R2_001.fastq.gz
+  - name: condition8
+    read1:
+      class: File
+      path: inputs/EW68_S39_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW68_S39_L005_R2_001.fastq.gz
+  - name: condition9
+    read1:
+      class: File
+      path: inputs/EW69_S40_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW69_S40_L005_R2_001.fastq.gz
+  - name: condition10
+    read1:
+      class: File
+      path: inputs/EW71_S42_L005_R1_001.fastq.gz
+    read2:
+      class: File
+      path: inputs/EW71_S42_L005_R2_001.fastq.gz

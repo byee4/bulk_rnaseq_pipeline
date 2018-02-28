@@ -1,6 +1,7 @@
-#!/usr/bin/env rnaseq_se_cwltorq
+#!/usr/bin/env wf_rnaseqscatter_se.cwl
 
-## wf_rnaseqscatter_se.cwl
+### rnaseq_se_cwltorq ###
+###
 
 species: hg19
 
@@ -22,8 +23,10 @@ adapters:
 
 reads:
   - name: KO3P1
-    class: File
-    path: inputs/SA-KO3P1_S20_L007_R1_001.fastq.gz
+    read1:
+      class: File
+      path: inputs/SA-KO3P1_S20_L007_R1_001.fastq.gz
   - name: KO3P2
-    class: File
-    path: inputs/SA-KO3P2_S13_L006_R1_001.fastq.gz
+    read1:
+      class: File
+      path: inputs/SA-KO3P2_S13_L006_R1_001.fastq.gz

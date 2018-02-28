@@ -100,38 +100,76 @@ inputs:
       position: 4
       prefix: -m
 
-  output:
+  output_r1:
     type: string
     inputBinding:
       position: 5
       prefix: -o
       valueFrom: |
-        $(inputs.input_trim.nameroot)Tr.fqgz
+        ${
+          if (inputs.output_r1 == "") {
+            return inputs.input_trim[0].nameroot + "Tr.fq";
+          }
+          else {
+            return inputs.output_r1;
+          }
+        }
     default: ""
+
+  # output_r2:
+  #   type: string?
+  #   inputBinding:
+  #     position: 6
+  #     prefix: -p
+  #     valueFrom: |
+  #       ${
+  #         if (inputs.output_r2 == "") {
+  #           return inputs.input_trim[1].nameroot + "Tr.fq";
+  #         }
+  #         else {
+  #           return inputs.output_r2;
+  #         }
+  #       }
+  #   default: ""
 
   quality_cutoff:
     type: string
     default: "6"
     inputBinding:
-      position: 6
+      position: 7
       prefix: --quality-cutoff
 
   input_trim:
-    type: File
+    type: File[]
     inputBinding:
-      position: 7
+      position: 8
 
 
-stdout: $(inputs.input_trim.nameroot)Tr.metrics
+stdout: $(inputs.input_trim[0].nameroot)Tr.metrics
 
 outputs:
 
   output_trim:
     type: File
     outputBinding:
-      glob: "*Tr.fqgz"
+      # glob: "*Tr.fq"
+      # If output_r1 was not specified, look for input basename
+      glob: |
+        ${
+          if (inputs.output_r1 == "") {
+            return [
+              inputs.input_trim[0].nameroot + "Tr.fq",
+            ];
+          }
+          else {
+            return [
+              inputs.output_r1,
+            ];
+          }
+        }
 
   output_trim_report:
     type: File
     outputBinding:
-      glob: "*Tr.metrics"
+      # glob: "*Tr.metrics"
+      glob: "*.metrics"

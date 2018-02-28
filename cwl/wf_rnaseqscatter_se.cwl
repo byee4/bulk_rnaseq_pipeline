@@ -1,4 +1,6 @@
-#!/usr/bin/env rnaseq_se_cwltorq
+#!/usr/bin/env cwltool
+
+# rnaseq_se_cwltorq
 
 cwlVersion: v1.0
 class: Workflow
@@ -9,8 +11,7 @@ class: Workflow
 requirements:
   - class: StepInputExpressionRequirement
   - class: SubworkflowFeatureRequirement
-  - class: ScatterFeatureRequirement      # TODO needed?
-  #- class: InlineJavascriptRequirement
+  - class: ScatterFeatureRequirement
 
 
 #hints:
@@ -31,7 +32,15 @@ inputs:
   adapters:
     type: File
   reads:
-    type: File[]
+    type:
+      type: array
+      items:
+        type: record
+        fields:
+          read1:
+            type: File
+          name:
+            type: string
 
 outputs:
   A_output_fastqc_report:
@@ -41,9 +50,9 @@ outputs:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_fastqc_stats
 
-  A_output_trim_fwd:
+  A_output_trim:
     type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_trim_fwd
+    outputSource: scatter_rnaseqcore_se/A_output_trim
   A_output_trim_report:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_trim_report
@@ -51,9 +60,6 @@ outputs:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_sort_trimmed_fastq
 
-  A_output_maprepeats_unmapped_fwd:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_maprepeats_unmapped_fwd
   A_output_maprepeats_stats:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_maprepeats_stats
@@ -64,9 +70,6 @@ outputs:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_sort_repunmapped_fastq
 
-  A_output_mapgenome_unmapped_fwd:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_mapgenome_unmapped_fwd
   A_output_mapgenome_mapped_to_genome:
     type: File[]
     outputSource: scatter_rnaseqcore_se/A_output_mapgenome_mapped_to_genome
@@ -109,14 +112,12 @@ steps:
     out: [
       A_output_fastqc_report,
       A_output_fastqc_stats,
-      A_output_trim_fwd,
+      A_output_trim,
       A_output_trim_report,
       A_output_sort_trimmed_fastq,
-      A_output_maprepeats_unmapped_fwd,
       A_output_maprepeats_mapped_to_genome,
       A_output_maprepeats_stats,
       A_output_sort_repunmapped_fastq,
-      A_output_mapgenome_unmapped_fwd,
       A_output_mapgenome_mapped_to_genome,
       A_output_mapgenome_stats,
       A_output_sorted_bam,
