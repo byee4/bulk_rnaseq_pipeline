@@ -1,7 +1,7 @@
-#!/usr/bin/env wf_rnaseqscatter_se.cwl
+#!/usr/bin/env RNASEQ_singleend
 
-### rnaseq_se_cwltorq ###
-###
+### RNASEQ_singleend ###
+### wf_rnaseqscatter_se.cwl ###
 
 species: hg19
 
@@ -17,7 +17,7 @@ repeatElementGenomeDir:
   class: Directory
   path: inputs/STAR_fixed
 
-adapters:
+b_adapters:
   class: File
   path: inputs/adapters.fasta
 

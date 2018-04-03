@@ -19,7 +19,7 @@ class: CommandLineTool
 requirements:
   - class: ResourceRequirement
     coresMin: 2
-    ramMin: 16000
+    ramMin: 32000
     tmpdirMin: 4000
     #outdirMin: 4000
   - class: StepInputExpressionRequirement
@@ -48,62 +48,61 @@ baseCommand: [cutadapt]
 #   -o, $(inputs.input_trim.nameroot)Tr.fqgz
 #   ]
 
-
 inputs:
-
-  f:
-    type: string
-    default: "fastq"
-    inputBinding:
-      position: -2
-      prefix: -f
 
   input_trim_overlap_length:
     type: string
     default: "5"
     inputBinding:
-      position: -1
+      position: 0
       prefix: -O
 
-  input_trim_b_adapters:
-    type: File
+  f:
+    type: string
+    default: "fastq"
     inputBinding:
-      position: 0
-      prefix: "--anywhere=file:"
-      separate: false
+      position: 1
+      prefix: -f
 
   match_read_wildcards:
     type: boolean
     default: true
     inputBinding:
-      position: 1
+      position: 2
       prefix: --match-read-wildcards
 
   times:
     type: string
     default: "2"
     inputBinding:
-      position: 2
+      position: 3
       prefix: --times
 
   error_rate:
     type: string
     default: "0.0"
     inputBinding:
-      position: 3
+      position: 4
       prefix: -e
+
+  quality_cutoff:
+    type: string
+    default: "6"
+    inputBinding:
+      position: 5
+      prefix: --quality-cutoff
 
   minimum_length:
     type: string
     default: "18"
     inputBinding:
-      position: 4
+      position: 6
       prefix: -m
 
   output_r1:
     type: string
     inputBinding:
-      position: 5
+      position: 7
       prefix: -o
       valueFrom: |
         ${
@@ -119,7 +118,7 @@ inputs:
   output_r2:
     type: string?
     inputBinding:
-      position: 6
+      position: 8
       prefix: -p
       valueFrom: |
         ${
@@ -132,17 +131,70 @@ inputs:
         }
     default: ""
 
-  quality_cutoff:
-    type: string
-    default: "6"
+  input_trim_b_adapters:
+    # default: []  # commenting out since TOIL overrides wf with defaults
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: "-b "
+        separate: false
+        # prefix: "--anywhere=file:"
+        # prefix: "-b file:"
     inputBinding:
-      position: 7
-      prefix: --quality-cutoff
+      position: 9
+
+  input_trim_g_adapters:
+    default: []  # adding default since TOIL overrides wf with defaults
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: "-g "
+        separate: false
+        # prefix: "--front=file:"
+        # prefix: "-g file:"
+    inputBinding:
+      position: 10
+
+  input_trim_A_adapters:
+    default: []  # commenting out since TOIL overrides wf with defaults
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: "-A "
+        separate: false
+        # prefix: "--ADAPTER=file:"
+        # prefix: "-A file:"
+    inputBinding:
+      position: 11
+
+
+  input_trim_a_adapters:
+    default: []  # commenting out since TOIL overrides wf with defaults
+    type:
+      type: array
+      items: string
+      inputBinding:
+        prefix: "-a "
+        separate: false
+        # prefix: "--adapter=file:"
+        # prefix: "-a file:"
+    inputBinding:
+      position: 12
+
+  # cores:
+  #   type: int
+  #   default: 2
+  #   inputBinding:
+  #     position: 13
+  #     prefix: -j
 
   input_trim:
     type: File[]?
     inputBinding:
-      position: 8
+      position: 14
 
 
 stdout: $(inputs.input_trim[0].nameroot)Tr.metrics

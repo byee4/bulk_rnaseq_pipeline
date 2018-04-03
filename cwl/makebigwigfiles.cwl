@@ -37,16 +37,16 @@ baseCommand: [makebigwigfiles]
 
 arguments: [
   --bw_pos,
-  $(inputs.bam.nameroot)No.pos.bw,
+  $(inputs.bam.nameroot).norm.pos.bw,
   --bw_neg,
-  $(inputs.bam.nameroot)No.neg.bw
+  $(inputs.bam.nameroot).norm.neg.bw
   ]
 
 inputs:
 
   bam:
      type: File
-     format: http://edamontology.org/format_2572
+     # format: http://edamontology.org/format_2572
      inputBinding:
        position: 1
        prefix: --bam
@@ -70,15 +70,15 @@ outputs:
 
   posbw:
     type: File
-    format: http://edamontology.org/format_3006
+    # format: http://edamontology.org/format_3006
     outputBinding:
-      glob: $(inputs.bam.nameroot)No.pos.bw
+      glob: $(inputs.bam.nameroot).norm.pos.bw
 
   negbw:
     type: File
-    format: http://edamontology.org/format_3006
+    # format: http://edamontology.org/format_3006
     outputBinding:
-      glob: $(inputs.bam.nameroot)No.neg.bw
+      glob: $(inputs.bam.nameroot).norm.neg.bw
 
   #posbg:
   #  type: File

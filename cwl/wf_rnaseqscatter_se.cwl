@@ -29,7 +29,7 @@ inputs:
     type: Directory
   species:
     type: string
-  adapters:
+  b_adapters:
     type: File
   reads:
     type:
@@ -42,54 +42,86 @@ inputs:
           name:
             type: string
 
+
 outputs:
-  A_output_fastqc_report:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_fastqc_report
-  A_output_fastqc_stats:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_fastqc_stats
 
-  A_output_trim:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_trim
-  A_output_trim_report:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_trim_report
-  A_output_sort_trimmed_fastq:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_sort_trimmed_fastq
 
-  A_output_maprepeats_stats:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_maprepeats_stats
-  A_output_maprepeats_mapped_to_genome:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_maprepeats_mapped_to_genome
-  A_output_sort_repunmapped_fastq:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_sort_repunmapped_fastq
+  ### FASTQC STATS ###
 
-  A_output_mapgenome_mapped_to_genome:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_mapgenome_mapped_to_genome
-  A_output_mapgenome_stats:
-    type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_mapgenome_stats
 
-  A_output_sorted_bam:
+  output_fastqc_report:
     type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_sorted_bam
-  A_output_sorted_bam_index:
+    outputSource: step_rnaseqcore_se/output_fastqc_report
+  output_fastqc_stats:
     type: File[]
-    outputSource: scatter_rnaseqcore_se/A_output_sorted_bam_index
+    outputSource: step_rnaseqcore_se/output_fastqc_stats
 
-  A_bigwig_pos_bam:
+
+  ### TRIM ###
+
+
+  output_trim:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: step_rnaseqcore_se/output_trim
+  output_trim_report:
     type: File[]
-    outputSource: scatter_rnaseqcore_se/A_bigwig_pos_bam
-  A_bigwig_neg_bam:
+    outputSource: step_rnaseqcore_se/output_trim_report
+  output_sort_trimmed_fastq:
+    type:
+      type: array
+      items:
+        type: array
+        items: File
+    outputSource: step_rnaseqcore_se/output_sort_trimmed_fastq
+
+
+  ### REPEAT MAPPING OUTPUTS ###
+
+
+  output_maprepeats_stats:
     type: File[]
-    outputSource: scatter_rnaseqcore_se/A_bigwig_neg_bam
+    outputSource: step_rnaseqcore_se/output_maprepeats_stats
+  output_maprepeats_mapped_to_genome:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_maprepeats_mapped_to_genome
+  output_sort_repunmapped_fastq:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_sort_repunmapped_fastq
+
+
+  ### GENOME MAPPING OUTPUTS ###
+
+
+  output_mapgenome_mapped_to_genome:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_mapgenome_mapped_to_genome
+  output_mapgenome_stats:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_mapgenome_stats
+
+
+  output_sorted_bam:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_sorted_bam
+  output_sorted_bam_index:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_sorted_bam_index
+
+
+  ### BIGWIG FILES ###
+
+
+  bigwig_pos_bam:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_bigwig_pos_bam
+  bigwig_neg_bam:
+    type: File[]
+    outputSource: step_rnaseqcore_se/output_bigwig_neg_bam
+
 
 steps:
 
@@ -97,7 +129,7 @@ steps:
 # Upstream
 ###########################################################################
 
-  scatter_rnaseqcore_se:
+  step_rnaseqcore_se:
     run: wf_rnaseqcore_se.cwl
     ###
     scatter: read
@@ -107,23 +139,23 @@ steps:
       speciesGenomeDir: speciesGenomeDir
       repeatElementGenomeDir: repeatElementGenomeDir
       species: species
-      adapters: adapters
+      b_adapters: b_adapters
       read: reads
     out: [
-      A_output_fastqc_report,
-      A_output_fastqc_stats,
-      A_output_trim,
-      A_output_trim_report,
-      A_output_sort_trimmed_fastq,
-      A_output_maprepeats_mapped_to_genome,
-      A_output_maprepeats_stats,
-      A_output_sort_repunmapped_fastq,
-      A_output_mapgenome_mapped_to_genome,
-      A_output_mapgenome_stats,
-      A_output_sorted_bam,
-      A_output_sorted_bam_index,
-      A_bigwig_pos_bam,
-      A_bigwig_neg_bam
+      output_fastqc_report,
+      output_fastqc_stats,
+      output_trim,
+      output_trim_report,
+      output_sort_trimmed_fastq,
+      output_maprepeats_mapped_to_genome,
+      output_maprepeats_stats,
+      output_sort_repunmapped_fastq,
+      output_mapgenome_mapped_to_genome,
+      output_mapgenome_stats,
+      output_sorted_bam,
+      output_sorted_bam_index,
+      output_bigwig_pos_bam,
+      output_bigwig_neg_bam
     ]
 
 

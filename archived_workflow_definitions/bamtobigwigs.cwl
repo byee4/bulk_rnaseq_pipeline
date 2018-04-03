@@ -44,7 +44,7 @@ inputs:
 
   bam:
      type: File
-     format: http://edamontology.org/format_2572
+     # format: http://edamontology.org/format_2572
      inputBinding:
        position: 1
        prefix: --bam
@@ -53,7 +53,7 @@ inputs:
 
   bai:
     type: File
-    format: http://edamontology.org/format_3327
+    # format: http://edamontology.org/format_3327
     inputBinding:
       position: 2
       prefix: --bai
@@ -68,13 +68,13 @@ outputs:
 
   posbw:
     type: File
-    format: http://edamontology.org/format_3006
+    # format: http://edamontology.org/format_3006
     outputBinding:
       glob: $(inputs.bam.nameroot).posbw
 
   negbw:
     type: File
-    format: http://edamontology.org/format_3006
+    # format: http://edamontology.org/format_3006
     outputBinding:
       glob: $(inputs.bam.nameroot).negbw
 

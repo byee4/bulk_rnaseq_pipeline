@@ -3,6 +3,8 @@
 cwlVersion: v1.0
 class: CommandLineTool
 
+### doc: 'STAR Aligner' ###
+
 ### TSCC requirements ###
 requirements:
   - class: ResourceRequirement
@@ -351,7 +353,7 @@ inputs:
       string: feature type in GTF file to be used as exons for building
       transcripts
   genomeDir:
-    type: Directory
+    type: Directory?
     inputBinding:
       ### TODO: uncomment if using genomeGenerate feature of this tool ###
       # valueFrom: |
@@ -656,7 +658,7 @@ inputs:
 
       '
   genomeLoad:
-    default: LoadAndRemove  # TODO: eCLIP 0.1.5 Defaults
+    default: NoSharedMemory  # TODO: eCLIP 0.1.5 Defaults
     type: string?
     inputBinding:
       position: 1
@@ -1386,6 +1388,11 @@ outputs:
     type: File?
     outputBinding:
       glob: "*Unmapped.out.mate2"
+
+  starsettings:
+    type: File
+    outputBinding:
+      glob: "*Log.out"
 
   mappingstats:
     type: File
