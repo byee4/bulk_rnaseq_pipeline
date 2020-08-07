@@ -21,7 +21,7 @@ CWLRUNNER=cwltorq # either: cwltool cwltoil or cwltorq
 WORKFLOW=wf_rnaseqscatter_pe # the prefix of the workflow cwl (without .cwl extension)
 
 PIPELINE=RNASEQ  # workflow prefix
-PIPELINEVERSION=0.0.2  # workflow version
+PIPELINEVERSION=0.0.4  # workflow version
 
 FULLPATHCOMMAND=$0
 JOB_FILE=$1
@@ -195,6 +195,7 @@ then
 #  ${WORKFLOW_HOME}/repo/cwl/${WORKFLOW}.cwl \
 
   cwltoil ${JOBSTOREEXITSLETSRESTART}  \
+    --retryCount 3 \
     --batchSystem ${BATCHSYSTEM} \
     --stats \
     --writeLogs ${TOILLOGS} \
@@ -207,7 +208,8 @@ then
     --clusterStats \
     --realTimeLogging \
     --stats \
-    --defaultMemory 64.0G \
+    --defaultMemory 100.0G \
+    --defaultCores 8 \
     ${WORKFLOW_HOME}/cwl/${WORKFLOW}.cwl \
     ${JOB_FILE} \
     2>${JOB_HOME}/${JOB_NAME}/${PIPELINE}_${JOB_NAME}_LOG.txt | tee ${JOB_HOME}/${JOB_NAME}/${PIPELINE}_${JOB_NAME}_OUTPUT.json

@@ -17,11 +17,11 @@ set -o pipefail
 
 
 
-CWLRUNNER=cwltool # either: cwltool cwltoil or cwltorq
+CWLRUNNER=cwltorq # either: cwltool cwltoil or cwltorq
 WORKFLOW=wf_rnaseqscatter_se # the prefix of the workflow cwl (without .cwl extension)
 
 PIPELINE=RNASEQ  # workflow prefix
-PIPELINEVERSION=0.0.2  # workflow version
+PIPELINEVERSION=0.0.4  # workflow version
 
 FULLPATHCOMMAND=$0
 JOB_FILE=$1

@@ -8,9 +8,6 @@ class: CommandLineTool
 requirements:
   - class: ResourceRequirement
     coresMin: 2
-    ramMin: 8000
-    tmpdirMin: 4000
-    outdirMin: 4000
 
 baseCommand: [fastqc, -t, "2", --extract, -k, "7",]
 

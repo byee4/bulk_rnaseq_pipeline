@@ -1,0 +1,13 @@
+Status	inputs/pe_multi/ENCFF040CTS.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/pe_multi/ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/pe_single/ENCFF040CTS.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/pe_single/ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/se_multi/ENCFF040CTS.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/se_multi/ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/se_single/ENCFF040CTS.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/se_single/ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam
+Assigned	27263390	29563998	27263390	29563998	31381140	36135255	31381140	36135255
+Unassigned_Unmapped	16455673	24209210	16455673	24209210	599734	1010677	599734	1010677
+Unassigned_MappingQuality	0	0	0	0	0	0	0	0
+Unassigned_Chimera	0	0	0	0	0	0	0	0
+Unassigned_FragmentLength	0	0	0	0	0	0	0	0
+Unassigned_Duplicate	0	0	0	0	0	0	0	0
+Unassigned_MultiMapping	6045404	7162125	6045404	7162125	5748315	7084566	5748315	7084566
+Unassigned_Secondary	0	0	0	0	0	0	0	0
+Unassigned_Nonjunction	0	0	0	0	0	0	0	0
+Unassigned_NoFeatures	32369527	34024834	32369527	34024834	3845852	3985332	3845852	3985332
+Unassigned_Overlapping_Length	0	0	0	0	0	0	0	0
+Unassigned_Ambiguity	1370252	1571337	1370252	1571337	1609106	1936352	1609106	1936352

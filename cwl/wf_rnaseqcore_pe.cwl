@@ -10,12 +10,6 @@ requirements:
   - class: MultipleInputFeatureRequirement
   - class: InlineJavascriptRequirement
 
-#hints:
-#  - class: ex:ScriptRequirement
-#    scriptlines:
-#      - "#!/bin/bash"
-
-
 inputs:
   speciesChromSizes:
     type: File
@@ -37,7 +31,11 @@ inputs:
           type: File
         name:
           type: string
-
+          
+  direction:
+    type: string
+    default: "r"
+  
 outputs:
 
 
@@ -55,16 +53,13 @@ outputs:
   ### TRIM ###
 
 
-  output_trim:
-    type: File[]
-    outputSource: step_trim/output_trim
   output_trim_report:
     type: File
     outputSource: step_trim/output_trim_report
 
   output_sort_trimmed_fastq:
     type: File[]
-    outputSource: step_sort_trimmed_fastq/output_fastqsort_sortedfastq
+    outputSource: gzip_trimmed_fastq/gzipped
 
 
   ### REPEAT MAPPING OUTPUTS ###
@@ -78,7 +73,7 @@ outputs:
     outputSource: step_map_repeats/mappingstats
   output_sort_repunmapped_fastq:
     type: File[]
-    outputSource: step_sort_repunmapped_fastq/output_fastqsort_sortedfastq
+    outputSource: gzip_repunmapped_fastq/gzipped
 
 
   ### GENOME MAPPING OUTPUTS ###
@@ -165,7 +160,15 @@ steps:
       input_fastqsort_fastq: step_trim/output_trim
     out:
       [output_fastqsort_sortedfastq]
-
+  
+  gzip_trimmed_fastq:
+    run: gzip.cwl
+    scatter: input
+    in:
+      input: step_sort_trimmed_fastq/output_fastqsort_sortedfastq
+    out:
+      [gzipped]
+      
   step_map_repeats:
     run: star.cwl
     in:
@@ -189,7 +192,15 @@ steps:
       ]
     out:
       [output_fastqsort_sortedfastq]
-
+  
+  gzip_repunmapped_fastq:
+    run: gzip.cwl
+    scatter: input
+    in:
+      input: step_sort_repunmapped_fastq/output_fastqsort_sortedfastq
+    out:
+      [gzipped]
+      
   step_map_genome:
     run: star.cwl
     in:
@@ -222,6 +233,7 @@ steps:
     in:
       bam: step_sort/output_sort_bam
       chromsizes: speciesChromSizes
+      direction: direction
     out: [
       posbw,
       negbw

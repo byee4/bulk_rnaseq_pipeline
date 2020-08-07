@@ -1,0 +1,13 @@
+Status	inputs/ENCFF040CTS.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STARAligned.out.sorted.bam	inputs/ENCFF511KFD.bam	inputs/ENCFF880HKN.bam
+Assigned	27263390	29563998	30462844	34293828
+Unassigned_Unmapped	16455673	24209210	7958718	12465644
+Unassigned_MappingQuality	0	0	0	0
+Unassigned_Chimera	0	0	0	0
+Unassigned_FragmentLength	0	0	0	0
+Unassigned_Duplicate	0	0	0	0
+Unassigned_MultiMapping	6045404	7162125	9051994	11262662
+Unassigned_Secondary	0	0	0	0
+Unassigned_Nonjunction	0	0	0	0
+Unassigned_NoFeatures	32369527	34024834	36578614	40025691
+Unassigned_Overlapping_Length	0	0	0	0
+Unassigned_Ambiguity	1370252	1571337	1542066	1816227

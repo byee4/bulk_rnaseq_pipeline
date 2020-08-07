@@ -1,0 +1,8 @@
+#!/usr/bin/env header2umitools_extract.cwl
+
+input:
+  class: File
+  path: SRR6853197.fastq.gz
+
+start0base: 1
+end: 9

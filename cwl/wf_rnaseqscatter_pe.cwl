@@ -1,24 +1,12 @@
 #!/usr/bin/env cwltool
 
-# rnaseq_pe_cwltorq
-
 cwlVersion: v1.0
 class: Workflow
-
-#$namespaces:
-#  ex: http://example.com/
 
 requirements:
   - class: StepInputExpressionRequirement
   - class: SubworkflowFeatureRequirement
   - class: ScatterFeatureRequirement
-
-
-#hints:
-#  - class: ex:ScriptRequirement
-#    scriptlines:
-#      - "#!/bin/bash"
-
 
 inputs:
   speciesChromSizes:
@@ -43,7 +31,10 @@ inputs:
             type: File
           name:
             type: string
-
+  direction:
+    type: string
+    default: "r"
+    
 outputs:
 
 
@@ -61,13 +52,6 @@ outputs:
   ### TRIM ###
 
 
-  output_trim:
-    type:
-      type: array
-      items:
-        type: array
-        items: File
-    outputSource: step_rnaseqcore_pe/output_trim
   output_trim_report:
     type: File[]
     outputSource: step_rnaseqcore_pe/output_trim_report
@@ -134,9 +118,7 @@ steps:
 
   step_rnaseqcore_pe:
     run: wf_rnaseqcore_pe.cwl
-    ###
     scatter: read
-    ###
     in:
       speciesChromSizes: speciesChromSizes
       speciesGenomeDir: speciesGenomeDir
@@ -144,10 +126,10 @@ steps:
       species: species
       b_adapters: b_adapters
       read: reads
+      direction: direction
     out: [
       output_fastqc_report,
       output_fastqc_stats,
-      output_trim,
       output_trim_report,
       output_sort_trimmed_fastq,
       output_maprepeats_mapped_to_genome,

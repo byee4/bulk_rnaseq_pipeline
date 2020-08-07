@@ -1,0 +1,37 @@
+#!/usr/bin/env RNASEQ_pairedend_singleNode
+
+species: hg19
+
+speciesChromSizes:
+  class: File
+  path: inputs/hg19.chrom.sizes
+
+speciesGenomeDir:
+  class: Directory
+  path: inputs/star_2_4_0i_gencode19_sjdb
+
+repeatElementGenomeDir:
+  class: Directory
+  path: inputs/homo_sapiens_repbase_v2
+
+b_adapters:
+  class: File
+  path: inputs/adapters.fasta
+
+reads:
+  - name: RBFOX2-rep1
+    read1:
+      class: File
+      path: inputs/ENCFF201PEI.fastq.gz
+    read2:
+      class: File
+      path: inputs/ENCFF508QNI.fastq.gz
+  - name: RBFOX2-rep2
+    read1:
+      class: File
+      path: inputs/ENCFF040CTS.fastq.gz
+    read2:
+      class: File
+      path: inputs/ENCFF435HLB.fastq.gz
+
+direction: r
