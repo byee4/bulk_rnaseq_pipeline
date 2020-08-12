@@ -32,13 +32,14 @@ STAR --alignEndsType EndToEnd --genomeDir homo_sapiens_repbase_v2 --genomeLoad N
 
 ### Sort surviving reads
 ```bash
-fastq-sort --id ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.mate1
-fastq-sort --id ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.mate2
+fastq-sort --id ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.mate1 > read1.fastqTr.sorted.STARUnmapped.out.sorted.fq
+fastq-sort --id ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.mate2 > read2.fastqTr.sorted.STARUnmapped.out.sorted.fq
 ```
 
 ### Map to genome index with STAR
+- **Note**: If using this CWL pipeline, you might notice the readFilesIn Read1 and Read2 files having the same name. This is due to the previous alignment step re-naming according to a singular prefix, which in our case is based on Read1. 
 ```bash
-STAR --alignEndsType EndToEnd --genomeDir star_2_4_0i_gencode19_sjdb --genomeLoad NoSharedMemory --outBAMcompression 10 --outFileNamePrefix ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STAR --outFilterMultimapNmax 10 --outFilterMultimapScoreRange 1 --outFilterScoreMin 10 --outFilterType BySJout --outReadsUnmapped Fastx --outSAMattrRGline ID:foo --outSAMattributes All --outSAMmode Full --outSAMtype BAM Unsorted --outSAMunmapped Within --outStd Log --readFilesIn ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.fq ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.fq --runMode alignReads --runThreadN 8
+STAR --alignEndsType EndToEnd --genomeDir star_2_4_0i_gencode19_sjdb --genomeLoad NoSharedMemory --outBAMcompression 10 --outFileNamePrefix ENCFF201PEI.fastqTr.sorted.STARUnmapped.out.sorted.STAR --outFilterMultimapNmax 10 --outFilterMultimapScoreRange 1 --outFilterScoreMin 10 --outFilterType BySJout --outReadsUnmapped Fastx --outSAMattrRGline ID:foo --outSAMattributes All --outSAMmode Full --outSAMtype BAM Unsorted --outSAMunmapped Within --outStd Log --readFilesIn read1.fastqTr.sorted.STARUnmapped.out.sorted.fq read2.fastqTr.sorted.STARUnmapped.out.sorted.fq --runMode alignReads --runThreadN 8
 ```
 
 ### Gzip to condense final outputs
